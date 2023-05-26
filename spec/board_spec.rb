@@ -16,5 +16,10 @@ RSpec.describe Board do
       board = Board.new
       expect(board.cells).to be_a(Hash)
     end
+    it 'returns a coordinate as a cell' do
+      board = Board.new
+
+      expect(board.cells['A1']).to be_a Cell
+    end
   end
 end
