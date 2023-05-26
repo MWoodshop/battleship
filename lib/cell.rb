@@ -37,13 +37,15 @@ class Cell
   # “H” if
   # “X” if the cell has been fired upon and its ship has been sunk.
 
-  def render
+  def render(reveal_ship = false)
     # The cell has been fired upon and it does not contain a ship (the shot was a miss).
     return 'M' if fired_upon? == true && empty?
     # The cell has been fired upon and it contains a ship (the shot was a hit).
-    return 'H' if fired_upon? == true && !empty?
+    return 'H' if fired_upon? == true && !empty? && !@ship.sunk?
     # The cell has been fired upon and its ship has been sunk.
-    return 'X' if fired_upon? == true && sunk?
+    return 'X' if fired_upon? == true && !empty? && @ship.sunk?
+    # The cell contains a ship that has not been fired upon and contains a ship.
+    return 'S' if reveal_ship && !fired_upon? && !empty?
 
     # Otherwise return "." which means the cell was not fired upon.
     '.'
