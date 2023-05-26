@@ -167,7 +167,18 @@ RSpec.describe Cell do
 
   describe 'coordinate_validation' do
     it 'returns invalid coordinate format' do
-      expect { Cell.new('B') }.to raise_error(ArgumentError, 'Invalid coordinate format, coordinate must be one of these letters (A, B, C, D) and one of these numbers (1, 2, 3, 4)')
+      expect { Cell.new('B') }.to raise_error(ArgumentError, 'Invalid coordinate format')
+      expect { Cell.new('12') }.to raise_error(ArgumentError, 'Invalid coordinate format')
+      expect { Cell.new('2A') }.to raise_error(ArgumentError, 'Invalid coordinate format')
+      expect { Cell.new('') }.to raise_error(ArgumentError, 'Invalid coordinate format')
+      expect { Cell.new(' ') }.to raise_error(ArgumentError, 'Invalid coordinate format')
+    end
+
+    it 'returns invalid coordinate out of bounds' do
+      expect { Cell.new('E1') }.to raise_error(ArgumentError, 'Invalid coordinate, coordinate out of bounds')
+      expect { Cell.new('A5') }.to raise_error(ArgumentError, 'Invalid coordinate, coordinate out of bounds')
+      expect { Cell.new('D5') }.to raise_error(ArgumentError, 'Invalid coordinate, coordinate out of bounds')
+      expect { Cell.new('D15') }.to raise_error(ArgumentError, 'Invalid coordinate, coordinate out of bounds')
     end
   end
 end
