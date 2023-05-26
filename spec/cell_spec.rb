@@ -164,4 +164,10 @@ RSpec.describe Cell do
       expect(cell_2.render).to eq('X')
     end
   end
+
+  describe 'coordinate_validation' do
+    it 'returns invalid coordinate format' do
+      expect { Cell.new('B') }.to raise_error(ArgumentError, 'Invalid coordinate format, coordinate must be one of these letters (A, B, C, D) and one of these numbers (1, 2, 3, 4)')
+    end
+  end
 end
