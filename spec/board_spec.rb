@@ -12,5 +12,9 @@ RSpec.describe Board do
       board = Board.new
       expect(board).to be_a(Board)
     end
+    it 'returns empty hash' do
+      board = Board.new
+      expect(board.cells).to be_a(Hash)
+    end
   end
 end
