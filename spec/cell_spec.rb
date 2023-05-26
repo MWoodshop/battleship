@@ -103,5 +103,15 @@ RSpec.describe Cell do
 
       expect(cell_1.render).to eq('M')
     end
+
+    it 'returns . on second cell' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render).to eq('.')
+    end
   end
 end
