@@ -45,13 +45,45 @@ RSpec.describe Cell do
     end
   end
 
-  describe 'fired_upon?' do
-    it 'returns false' do
+  describe 'fire_upon' do
+    it 'fired_upon starts false' do
       cell = Cell.new('B4')
       cruiser = Ship.new('Cruiser', 3)
       cell.place_ship(cruiser)
 
       expect(cell.fired_upon?).to eq(false)
+    end
+
+    it 'fired_upon is true' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+      cell.place_ship(cruiser)
+      cell.fire_upon
+
+      expect(cell.fired_upon?).to eq(true)
+    end
+
+    it 'decreases health' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+      cell.place_ship(cruiser)
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq(2)
+      expect(cell.fired_upon?).to eq(true)
+    end
+
+    it 'misses' do
+      b4 = Cell.new('B4')
+      d2 = Cell.new('D2')
+      cruiser = Ship.new('Cruiser', 3)
+      b4.place_ship(cruiser)
+      d2.fire_upon
+
+      expect(d2.fired_upon?).to eq(true)
+      expect(d2.ship).to eq(nil)
+      expect(d2.empty?).to eq(true)
+      expect(b4.ship.health).to eq(3)
     end
   end
 end
