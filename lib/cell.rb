@@ -36,12 +36,6 @@ class Cell
     @fired_upon
   end
 
-  # returns a String representation of the Cell for when we need to print the board
-  #   ”.” if the cell has not been fired upon.
-  # “M” if
-  # “H” if
-  # “X” if the cell has been fired upon and its ship has been sunk.
-
   def render(reveal_ship = false)
     # The cell has been fired upon and it does not contain a ship (the shot was a miss).
     return 'M' if fired_upon? == true && empty?
@@ -56,3 +50,5 @@ class Cell
     '.'
   end
 end
+
+
