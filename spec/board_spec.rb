@@ -30,4 +30,18 @@ RSpec.describe Board do
       expect(board.cells.keys).to include('A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4')
     end
   end
+
+  describe 'valid_coordinate?' do
+    it 'returns true' do
+      board = Board.new
+
+      expect(board.valid_coordinate?('A1')).to eq(true)
+    end
+
+    it 'returns false' do
+      board = Board.new
+
+      expect(board.valid_coordinate?('F1')).to eq(false)
+    end
+  end
 end
