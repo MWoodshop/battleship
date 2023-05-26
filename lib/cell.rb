@@ -1,9 +1,14 @@
+require './lib/coordinate_validation'
+
 class Cell
   attr_reader :coordinate,
               :ship
 
+  include CoordinateValidation
+
   # Initialize a cell with a coordinate and no ship to start
   def initialize(coordinate)
+    validate_coordinate(coordinate)
     @coordinate = coordinate
     @ship = nil
     @fired_upon = false
