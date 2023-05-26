@@ -3,6 +3,8 @@ require 'pry'
 require './lib/cell'
 require './lib/ship'
 
+# !!! We need to add a test if an invalid cell is given in the future.!!!
+
 RSpec.describe Cell do
   describe '#initialize' do
     it 'exists' do
@@ -84,6 +86,22 @@ RSpec.describe Cell do
       expect(d2.ship).to eq(nil)
       expect(d2.empty?).to eq(true)
       expect(b4.ship.health).to eq(3)
+    end
+  end
+
+  describe 'render' do
+    it 'returns . by default' do
+      cell_1 = Cell.new('B4')
+      cell_1.render
+
+      expect(cell_1.render).to eq('.')
+    end
+
+    it 'returns M' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+
+      expect(cell_1.render).to eq('M')
     end
   end
 end
