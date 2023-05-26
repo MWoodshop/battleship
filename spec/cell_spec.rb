@@ -113,5 +113,55 @@ RSpec.describe Cell do
 
       expect(cell_2.render).to eq('.')
     end
+
+    it 'returns S' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render(true)).to eq('S')
+    end
+
+    it 'returns H' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+
+      expect(cell_2.render).to eq('H')
+    end
+
+    it 'returns sunk? = true' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+
+      expect(cruiser.sunk?).to eq(false)
+
+      cruiser.hit
+      cruiser.hit
+
+      expect(cruiser.sunk?).to eq(true)
+    end
+
+    it 'returns X' do
+      cell_1 = Cell.new('B4')
+      cell_1.fire_upon
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+      cruiser.hit
+      cruiser.hit
+
+      expect(cell_2.render).to eq('X')
+    end
   end
 end
