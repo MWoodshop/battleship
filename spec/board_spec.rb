@@ -49,7 +49,7 @@ RSpec.describe Board do
   end
 
   describe 'valid_placement?' do
-    xit 'returns boolean' do
+    it 'returns boolean' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -58,7 +58,7 @@ RSpec.describe Board do
       expect(board.valid_placement?(cruiser, %w[A1 A2 A3 A4])).to eq(false)
     end
 
-    xit 'is not an array' do
+    it 'is not an array' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -66,7 +66,7 @@ RSpec.describe Board do
       expect(board.valid_placement?(cruiser, 'A1')).to eq(false)
     end
 
-    xit 'is not an array' do
+    it 'is not an array' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -75,7 +75,7 @@ RSpec.describe Board do
       expect(board.valid_placement?(fishing_boat, %w[A1 A2 A3 A4])).to eq(false)
     end
 
-    xit 'coordinates.length is not equal to ship.length' do
+    it 'coordinates.length is not equal to ship.length' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -83,7 +83,7 @@ RSpec.describe Board do
       expect(board.valid_placement?(submarine, %w[A2 A3 A4])).to eq(false)
     end
 
-    xit 'coordinate is empty' do
+    it 'coordinate is empty' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
@@ -91,7 +91,7 @@ RSpec.describe Board do
       expect(board.valid_placement?(submarine, [])).to eq(false)
     end
     
-    xit 'test all ship placement' do
+    it 'test all ship placement' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
