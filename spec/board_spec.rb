@@ -159,4 +159,6 @@ RSpec.describe Board do
       expect(cell_3.ship == cell_4.ship).to eq(false)
     end
   end
+
+  # Iteration 3 - Overlapping Ships
 end
