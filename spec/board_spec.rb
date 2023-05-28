@@ -161,4 +161,14 @@ RSpec.describe Board do
   end
 
   # Iteration 3 - Overlapping Ships
+  describe 'overlapping ships' do
+    it 'checks valid_placement? against overlapping ships' do
+      board = Board.new
+      cruiser = Ship.new("Cruiser", 3)
+      board.place(cruiser, ["A1", "A2", "A3"])
+      submarine = Ship.new("Submarine", 2)
+
+      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
+    end
+  end
 end
