@@ -92,11 +92,18 @@ class Board
     true
   end
 
+  # Iteration 2 - Placing Ships
+  # This method allows multiple cells to contain the same ship
   def place(ship, coordinates)
+    # This checks to ensure the placement is valid
     return unless valid_placement?(ship, coordinates)
 
+    # If the placement is valid, iterates over each coordinate in coordinates array
     coordinates.each do |coordinate|
+      # For each coordinate, retrieves the corresponding cell from the @cells hash using the coordinate as a key
       cell = @cells[coordinate]
+      # Then calls place_ship method on the cell using the ship as an argument
+      # This assigns the ship to the cell
       cell.place_ship(ship)
     end
   end
