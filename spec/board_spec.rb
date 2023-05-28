@@ -131,5 +131,32 @@ RSpec.describe Board do
       expect(cell_3.ship.length).to eq(3)
       expect(cell_3.ship.health).to eq(3)
     end
+
+    it 'cell.ship of cells containing the same ship equal each other' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      cell_1 = board.cells['A1']
+      cell_2 = board.cells['A2']
+      cell_3 = board.cells['A3']
+
+      expect(cell_1.ship == cell_2.ship).to eq(true)
+      expect(cell_1.ship == cell_3.ship).to eq(true)
+      expect(cell_2.ship == cell_3.ship).to eq(true)
+    end
+
+    it 'cell.ship of cells NOT containing the same ship do NOT equal each other' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      cell_1 = board.cells['A1']
+      cell_2 = board.cells['A2']
+      cell_3 = board.cells['A3']
+      cell_4 = board.cells['A4']
+
+      expect(cell_1.ship == cell_4.ship).to eq(false)
+      expect(cell_2.ship == cell_4.ship).to eq(false)
+      expect(cell_3.ship == cell_4.ship).to eq(false)
+    end
   end
 end
