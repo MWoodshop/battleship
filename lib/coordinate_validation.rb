@@ -9,7 +9,7 @@
 
 module CoordinateValidation
   # This is a constant that defines the valid battleship coordinates using regex.
-  # The regex means that the coordinate must start with a letter A-D, and end with a number 1-4.
+  # The regex means that the coordinate must start with a letter A-Z, and end with a number.
   VALID_COORDINATE_REGEX = /^[A-Z]{1}\d{1,2}$/
 
   # This method validates the coordinate format and checks if the coordinate is within the grid.
