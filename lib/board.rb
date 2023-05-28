@@ -1,6 +1,8 @@
 class Board
   attr_reader :cells
 
+  # !!! In refactor - readd comments to methods !!!
+
   def initialize(size = 4)
     @cells = {}
     ('A'..('A'.ord + size - 1).chr).each do |letter|
