@@ -179,5 +179,32 @@ RSpec.describe Board do
 
       expect(board.valid_placement?(destroyer, %w[B3 B4])).to be true
     end
+
+    it 'returns false for overlapping ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 A2])).to be false
+    end
+
+    it 'returns false for diagonal ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 B2])).to be false
+    end
+
+    it 'returns false for non-consecutive ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 A4])).to be false
+    end
   end
 end
