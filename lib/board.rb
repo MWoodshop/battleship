@@ -74,8 +74,8 @@ class Board
     end
 
     ship.length.times do |location|
-      return false if letter[location].ord >= 69
-      return false if number[location] < 1 || number[location] > 5 # check if the number is less than 1 or greater than 5 since it's not a valid coordinate
+      return false if letter[location].ord < 'A'.ord || letter[location].ord > 'D'.ord # This validates that the letter is between A-D as anything outside is not a valid coordinate
+      return false if number[location] < 1 || number[location] > 4 # check if the number is less than 1 or greater than 4 since it's not a valid coordinate
       break unless number[location + 1] && letter[location + 1] # break the loop if the next location is out of bounds
 
       if (number[location + 1] - number[location]) != 1 && letter[location] == letter[location + 1] # check if the numbers are not consecutive and the letters are the same
