@@ -90,22 +90,121 @@ RSpec.describe Board do
 
       expect(board.valid_placement?(submarine, [])).to eq(false)
     end
-    
+
     it 'test all ship placement' do
       board = Board.new
-      cruiser = Ship.new("Cruiser", 3)
-      submarine = Ship.new("Submarine", 2)
+      cruiser = Ship.new('Cruiser', 3)
+      submarine = Ship.new('Submarine', 2)
 
-      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq(false)
-      expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
-      expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq(false)
-      expect(board.valid_placement?(submarine, ["A1", "C1"])).to eq(false)
-      expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq(false)
-      expect(board.valid_placement?(submarine, ["C1", "B1"])).to eq(false)
-      expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
-      expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
-      expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq(true)
-      expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to eq(true)
+      expect(board.valid_placement?(cruiser, %w[A1 A2])).to eq(false)
+      expect(board.valid_placement?(submarine, %w[A2 A3 A4])).to eq(false)
+      expect(board.valid_placement?(cruiser, %w[A1 A2 A4])).to eq(false)
+      expect(board.valid_placement?(submarine, %w[A1 C1])).to eq(false)
+      expect(board.valid_placement?(cruiser, %w[A3 A2 A1])).to eq(false)
+      expect(board.valid_placement?(submarine, %w[C1 B1])).to eq(false)
+      expect(board.valid_placement?(cruiser, %w[A1 B2 C3])).to eq(false)
+      expect(board.valid_placement?(submarine, %w[C2 D3])).to eq(false)
+      expect(board.valid_placement?(submarine, %w[A1 A2])).to eq(true)
+      expect(board.valid_placement?(cruiser, %w[B1 C1 D1])).to eq(true)
+    end
+  end
+
+  # Iteration 2 - Placing Ships
+  describe '.place method' do
+    it '.ship returns correct ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      cell_1 = board.cells['A1']
+      cell_2 = board.cells['A2']
+      cell_3 = board.cells['A3']
+
+      expect(cell_1.ship.name).to eq('Cruiser')
+      expect(cell_1.ship.length).to eq(3)
+      expect(cell_1.ship.health).to eq(3)
+
+      expect(cell_2.ship.name).to eq('Cruiser')
+      expect(cell_2.ship.length).to eq(3)
+      expect(cell_2.ship.health).to eq(3)
+
+      expect(cell_3.ship.name).to eq('Cruiser')
+      expect(cell_3.ship.length).to eq(3)
+      expect(cell_3.ship.health).to eq(3)
+    end
+
+    it 'cell.ship of cells containing the same ship equal each other' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      cell_1 = board.cells['A1']
+      cell_2 = board.cells['A2']
+      cell_3 = board.cells['A3']
+
+      expect(cell_1.ship == cell_2.ship).to eq(true)
+      expect(cell_1.ship == cell_3.ship).to eq(true)
+      expect(cell_2.ship == cell_3.ship).to eq(true)
+    end
+
+    it 'cell.ship of cells NOT containing the same ship do NOT equal each other' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      cell_1 = board.cells['A1']
+      cell_2 = board.cells['A2']
+      cell_3 = board.cells['A3']
+      cell_4 = board.cells['A4']
+
+      expect(cell_1.ship == cell_4.ship).to eq(false)
+      expect(cell_2.ship == cell_4.ship).to eq(false)
+      expect(cell_3.ship == cell_4.ship).to eq(false)
+    end
+  end
+
+  # Iteration 3 - Overlapping Ships
+  describe 'overlapping ships' do
+    it 'checks valid_placement? against overlapping ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      submarine = Ship.new('Submarine', 2)
+
+      expect(board.valid_placement?(submarine, %w[A1 B1])).to eq(false)
+    end
+
+    it 'returns true for non-overlapping ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[B3 B4])).to be true
+    end
+
+    it 'returns false for overlapping ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 A2])).to be false
+    end
+
+    it 'returns false for diagonal ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 B2])).to be false
+    end
+
+    it 'returns false for non-consecutive ships' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      destroyer = Ship.new('Destroyer', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.valid_placement?(destroyer, %w[A1 A4])).to be false
     end
   end
 end
