@@ -276,5 +276,30 @@ RSpec.describe Board do
         expect(line).to eq(expected_lines[index])
       end
     end
+
+    it 'renders board with hits' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      submarine = Ship.new('Submarine', 2)
+      board.place(cruiser, %w[A1 A2 A3])
+      board.place(submarine, %w[C1 D1])
+
+      a1 = board.cells['A1']
+      a1.fire_upon
+      expect(cruiser.health).to eq(2)
+
+      board_string = board.render(true)
+      expected_lines = [
+        '  1 2 3 4 ',
+        'A H S S . ',
+        'B . . . . ',
+        'C S . . . ',
+        'D S . . . ',
+        ''
+      ]
+      board_string.split("\n").each_with_index do |line, index|
+        expect(line).to eq(expected_lines[index])
+      end
+    end
   end
 end
