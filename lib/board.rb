@@ -1,7 +1,6 @@
 class Board
   attr_reader :cells
 
-  # !!! In refactor - readd comments to methods !!!
   # Initializes with an optional size argument (default 4)
   def initialize(size = 4)
     @cells = {} # Create empty hash to store cells
