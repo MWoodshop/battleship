@@ -1,3 +1,5 @@
+require './lib/cell'
+
 class Board
   attr_reader :cells
 
@@ -45,11 +47,69 @@ class Board
       @cells[coordinate].place_ship(ship)
     end
   end
-  # This marks the following methods as private meaning it can only be called within this class
+
+  # This method renders the board
+  # It takes an optional argument reveal_ship which defaults to false
+  # This argument is used to determine if the ship should be revealed and is used for debugging purposes
+  def render(reveal_ship = false)
+    # This calculates the board size by taking the square root of the length of the cells array
+    # And converts it to an integer
+    # It uses the Math module which is part of the Ruby standard library
+    board_size = Math.sqrt(cells.length).to_i
+    # This creates an empty string that will store the final rendered representation of the board
+    rendered_board = ''
+
+    # This appends a string to the rendered_board string
+    # This string adds two spaces followed by the numbers 1 to the board size -
+    #  - joined together with spaces and then a newline character
+    rendered_board += '  ' + (1..board_size).to_a.join(' ') + " \n"
+
+    # This starts a loop that iterates over a range of letters from A to the size of the board
+    # It selects the first board_size number of letters
+    # The loop variable letter represents each letter in the range
+    ('A'..'Z').first(board_size).each do |letter|
+      # This initializes a string called row with the current letter followed by a space
+      row = letter + ' '
+      # This starts another loop that iterates from 1 to the board size
+      # The loop variable number represents each number in the range
+      (1..board_size).each do |number|
+        # Within the nested loop, the coordinate is created by concatenating -
+        #   - the letter and number to form a coordinate string
+        # Then it retrieves the value of the cell at that coordinate to form an instance variable @cells
+        # The render_cell method is called with the cell and reveal_ship arguments
+        # The result is appended to the row string followed by a space
+        coordinate = letter + number.to_s
+        cell = @cells[coordinate]
+        row += render_cell(cell, reveal_ship) + ' '
+      end
+      # After the nested loop, the row string is appended to the rendered_board string followed by a newline character
+      rendered_board += row + "\n"
+    end
+    # The rendered_board string is returned
+    rendered_board
+  end
+
+  # The following methods are private meaning it can only be called within this class
   # This is done to enforce encapsulation which hides this functionality from outside the class
   # It also prevents the methods from being called in the wrong context in another class
-
   private
+
+  # This method works similar to the method in the Cell class
+  def render_cell(cell, reveal_ship)
+    if cell.fired_upon?
+      if cell.empty?
+        'M' # The cell has been fired upon and it does not contain a ship (the shot was a miss).
+      elsif cell.ship && cell.ship.sunk?
+        'X' # The cell has been fired upon and its ship has been sunk.
+      else
+        'H' # The cell has been fired upon and it contains a ship (the shot was a hit).
+      end
+    elsif reveal_ship && cell.ship && !cell.fired_upon?
+      'S' # The cell contains a ship that has not been fired upon.
+    else
+      '.' # The cell has not been fired upon.
+    end
+  end
 
   # This private method checks if the coordinates are consecutive either horizontally or vertically
   # First it extracts the letters and numbers from the coordinates
