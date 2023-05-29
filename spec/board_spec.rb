@@ -232,5 +232,29 @@ RSpec.describe Board do
         expect(line).to eq(expected_lines[index])
       end
     end
+    it 'renders board on one line with true argument' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    it 'renders board on multiple lines with true argument' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      board_string = board.render(true)
+      expected_lines = [
+        '  1 2 3 4 ',
+        'A S S S . ',
+        'B . . . . ',
+        'C . . . . ',
+        'D . . . . ',
+        ''
+      ]
+      board_string.split("\n").each_with_index do |line, index|
+        expect(line).to eq(expected_lines[index])
+      end
+    end
   end
 end
