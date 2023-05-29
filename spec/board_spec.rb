@@ -160,7 +160,7 @@ RSpec.describe Board do
     end
   end
 
-  # Iteration 3 - Overlapping Ships
+  # Iteration 2 - Overlapping Ships
   describe 'overlapping ships' do
     it 'checks valid_placement? against overlapping ships' do
       board = Board.new
@@ -205,6 +205,32 @@ RSpec.describe Board do
       board.place(cruiser, %w[A1 A2 A3])
 
       expect(board.valid_placement?(destroyer, %w[A1 A4])).to be false
+    end
+  end
+
+  describe 'render method' do
+    it 'renders board on one line' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+    it 'renders board on multiple lines' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+      board_string = board.render
+      expected_lines = [
+        '  1 2 3 4 ',
+        'A . . . . ',
+        'B . . . . ',
+        'C . . . . ',
+        'D . . . . ',
+        ''
+      ]
+      board_string.split("\n").each_with_index do |line, index|
+        expect(line).to eq(expected_lines[index])
+      end
     end
   end
 end
