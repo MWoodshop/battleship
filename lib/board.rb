@@ -1,4 +1,6 @@
 require './lib/cell'
+require './lib/ship'
+require './lib/coordinate_validation'
 
 class Board
   attr_reader :cells
