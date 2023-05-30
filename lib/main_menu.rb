@@ -1,14 +1,14 @@
-require './lib/ascii'
 require './lib/game'
-
-Ascii.display_art('Ruby Note')
+require './lib/ascii'
 
 class MainMenu
+  include Ascii
   def initialize
     @game = Game.new
   end
 
   def display_main_menu
+    Ascii.display_art
     puts '=== Main Menu ==='
     puts 'Press P to play'
     puts 'Press Q to quit'
