@@ -7,8 +7,9 @@ class MainMenu
     @game = Game.new
   end
 
+  Ascii.display_art
+
   def display_main_menu
-    Ascii.display_art
     puts '=== Main Menu ==='
     puts 'Press P to play'
     puts 'Press Q to quit'
