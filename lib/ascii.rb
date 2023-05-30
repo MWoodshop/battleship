@@ -1,5 +1,5 @@
-class Ascii
-  def self.display_art(_text)
+module Ascii
+  def self.display_art
     ascii_art = <<~ASCII
 
 
