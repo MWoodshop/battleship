@@ -23,11 +23,14 @@ class Game
   def start
     puts '=== Welcome to Battleship ==='
     puts 'Instructions: ...' # Provide game instructions
-    place_cruiser
-    place_sub
+    player_place_cruiser
+    player_place_sub
+    computer_cruiser_coords
   end
 
-  def place_cruiser
+  # !!! Add valid coordinate check !!!
+
+  def player_place_cruiser
     # Prompt the user to place their ships on the board
     puts 'Please place your ships on the board...'
     # Your logic for ship placement goes here
@@ -40,10 +43,15 @@ class Game
     input3 = gets.chomp.upcase
     player_cruiser_coords = [input1, input2, input3]
     @player_board.place(@player_cruiser, player_cruiser_coords)
-    p @player_board.render(true)
+    puts ''
+    rendered_board = @player_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    puts ''
   end
 
-  def place_sub
+  def player_place_sub
     # Prompt the user to place their ships on the board
     puts 'Please place your ships on the board...'
     # Your logic for ship placement goes here
@@ -54,7 +62,27 @@ class Game
     input2 = gets.chomp.upcase
     player_sub_coords = [input1, input2]
     @player_board.place(@player_sub, player_sub_coords)
-    p @player_board.render(true)
+    puts ''
+    rendered_board = @player_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    puts ''
+  end
+
+  def computer_cruiser_coords
+    letter_array = @computer_board.cells.keys
+    coord_array = []
+
+    until @computer_board.valid_placement?(@computer_sub, coord_array)
+      coord_array.clear
+
+      3.times do
+        coord_array << letter_array.sample
+      end
+    end
+
+    @computer_cruiser_coords = cord_array
   end
 
   def play_game
