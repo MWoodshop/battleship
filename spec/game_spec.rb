@@ -11,9 +11,13 @@ RSpec.describe Game do
         expect(game).to be_an_instance_of(Game)
     end
 
-    it "can start the game" do
+    it "has a board for both computer and player" do
         game = Game.new
 
-        game.start
+        expect(game.computer_board).to be_an_instance_of(Board)
+        expect(game.player_board).to be_an_instance_of(Board)
     end
+
+    
+
 end
