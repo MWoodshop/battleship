@@ -58,7 +58,7 @@ class Game
       player_shot
       computer_shot
       if @player_cruiser.sunk? == true && @player_sub.sunk? == true
-        puts 'I won!'
+        puts 'Turing 6100 won!'
       elsif @computer_cruiser.sunk? == true && @computer_sub.sunk? == true
         puts 'You won!'
       end
