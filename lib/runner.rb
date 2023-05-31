@@ -2,6 +2,7 @@ require './lib/board'
 require './lib/game'
 require './lib/cell'
 require './lib/ship'
+require './lib/main_menu'
 
-game = Game.new
-game.start
+main_menu = MainMenu.new
+main_menu.start
