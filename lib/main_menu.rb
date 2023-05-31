@@ -3,6 +3,8 @@ require './lib/ascii'
 
 class MainMenu
   include Ascii
+  # Use this format on any chomp to allow exit to escape: input = get_user_input
+  include InputHelper
 
   def initialize
     @game = Game.new
@@ -22,15 +24,15 @@ class MainMenu
     loop do
       display_main_menu
       print 'Please enter a command: '
-      choice = gets.chomp.downcase
+      choice = get_user_input
 
       case choice
-      when 'p'
+      when 'p', 'P'
         puts 'Starting the game...'
         @game.start
-      when 'i'
+      when 'i', 'I'
         game_instructions
-      when 'q'
+      when 'q', 'Q'
         quit_application
         break
       else
@@ -69,8 +71,8 @@ def game_instructions
   puts ''
 
   print 'Enter M to the main menu or Q to quit: '
-  choice = gets.chomp.downcase
-  return unless choice == 'q'
+  choice = get_user_input.downcase
+  return unless choice == 'q' || 'Q'
 
   quit_application
 end
