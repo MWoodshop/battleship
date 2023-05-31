@@ -80,7 +80,7 @@ class Game
     elsif @computer_board.cells[player_shot_coordinate].render == 'H'
       puts 'Your shot on ' + player_shot_coordinate + ' hit the target.'
     elsif @computer_board.cells[player_shot_coordinate].render == 'X'
-      puts 'Your shot on ' + player_shot_coordinate + ' sunk my ship.'
+      puts 'Your shot on ' + player_shot_coordinate + ' sunk my battleship.'
     end
     puts ''
     rendered_board = @computer_board.render(true)
