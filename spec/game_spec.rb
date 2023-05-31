@@ -53,6 +53,14 @@ RSpec.describe Game do
         expect(game.computer_board.valid_placement?(ship, placement)).to be true
     end
 
+    it "returns nil if no valid placement is available" do
+        game = Game.new
+        ship = Ship.new('Cruiser', 3)
+        allow(game.computer_board).to receive(:valid_placement?).and_return(false)
+        placement = game.random_ship_placement(ship)
+        expect(placement).to be_nil
+    end
+
 
 
 end
