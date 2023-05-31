@@ -267,7 +267,7 @@ class Game
     if @player_board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
       puts 'Turing 6100 won the game! Better luck next time!'
     else
-      puts 'Player won the game!'
+      puts 'Player won the game! *Congradulations*'
     end
   end
 end
