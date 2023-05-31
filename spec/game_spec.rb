@@ -37,5 +37,14 @@ RSpec.describe Game do
         expect(game.player_board.cells['A3'].ship).to eq(game.player_cruiser)
     end
 
+    it "places the player sub on valid coordinates" do
+        game = Game.new
+        allow(game).to receive(:gets).and_return('B1', 'B2')
+        game.player_place_sub
+
+        expect(game.player_board.cells['B1'].ship).to eq(game.player_sub)
+        expect(game.player_board.cells['B2'].ship).to eq(game.player_sub)
+    end
+
 
 end
