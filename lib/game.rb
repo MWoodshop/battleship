@@ -36,19 +36,19 @@ class Game
     player_place_sub
     computer_place_cruiser
     # Debug Only Start - Comment Out when shipped to Prod
-    puts 'Computer Board:'
-    rendered_board = @computer_board.render(true)
-    rendered_board.split("\n").each do |line|
-      puts line
-    end
+    # puts 'Computer Board:'
+    # rendered_board = @computer_board.render(true)
+    # rendered_board.split("\n").each do |line|
+    #   puts line
+    # end
     # Debug Only End - Comment Out when shipped to Prod
     computer_place_sub
     # Debug Only Start - Comment Out when shipped to Prod
-    puts 'Computer Board:'
-    rendered_board = @computer_board.render(true)
-    rendered_board.split("\n").each do |line|
-      puts line
-    end
+    # puts 'Computer Board:'
+    # rendered_board = @computer_board.render(true)
+    # rendered_board.split("\n").each do |line|
+    #   puts line
+    # end
     # Debug Only End - Comment Out when shipped to Prod
     play_game
   end
@@ -83,7 +83,7 @@ class Game
       puts 'Your shot on ' + player_shot_coordinate + ' sunk my battleship.'
     end
     puts ''
-    rendered_board = @computer_board.render(true)
+    rendered_board = @computer_board.render(false)
     rendered_board.split("\n").each do |line|
       puts line
     end
