@@ -1,6 +1,7 @@
 require './lib/board'
 require './lib/ship'
 require './lib/cell'
+require './lib/input_helper'
 require 'pry'
 
 class Game
@@ -10,6 +11,9 @@ class Game
               :computer_sub,
               :player_cruiser,
               :player_sub
+
+  # Use this format on any chomp to allow exit to escape: input = get_user_input
+  include InputHelper
 
   def initialize
     @player_board = Board.new
@@ -21,6 +25,9 @@ class Game
   end
 
   def start
+    puts ''
+    puts '=== Welcome to Battleship! ==='
+    puts ''
     setup_game
   end
 
@@ -61,11 +68,11 @@ class Game
   def player_shot
     puts 'Enter the coordinate for your shot:'
     print '> '
-    player_shot_coordinate = gets.chomp.upcase
+    player_shot_coordinate = get_user_input
     until @computer_board.valid_coordinate?(player_shot_coordinate) == true && @computer_board.cells[player_shot_coordinate].fired_upon? == false
       puts 'Please enter a valid coordinate:'
       print '> '
-      player_shot_coordinate = gets.chomp.upcase
+      player_shot_coordinate = get_user_input
     end
     @computer_board.cells[player_shot_coordinate].fire_upon
     if @computer_board.cells[player_shot_coordinate].render == 'M'
@@ -107,25 +114,24 @@ class Game
   def player_place_cruiser
     # Prompt the user to place their ships on the board
     puts 'Please place your ships on the board...'
-    # Your logic for ship placement goes here
     puts 'The Cruiser is 3 units long.'
     puts 'Please place the first Cruiser coordinate (ex. A1, A2, B1, B2).'
-    input1 = gets.chomp.upcase
+    input1 = get_user_input
     puts 'Please place the second Cruiser coordinate (ex. A1, A2, B1, B2).'
-    input2 = gets.chomp.upcase
+    input2 = get_user_input
     puts 'Please place the third Cruiser coordinate (ex. A1, A2, B1, B2).'
-    input3 = gets.chomp.upcase
+    input3 = get_user_input
     player_cruiser_coords = [input1, input2, input3]
     until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords) == true
       puts 'Those are invalid coordinates! Please try again:'
       puts ''
       print '> '
       player_cruiser_coords.clear
-      input1 = gets.chomp.upcase
+      input1 = get_user_input
       print '> '
-      input2 = gets.chomp.upcase
+      input2 = get_user_input
       print '> '
-      input3 = gets.chomp.upcase
+      input3 = get_user_input
       player_cruiser_coords = [input1, input2, input3]
     end
     @player_board.place(@player_cruiser, player_cruiser_coords)
@@ -143,18 +149,18 @@ class Game
     # Your logic for ship placement goes here
     puts 'The Submarine is 2 units long.'
     puts 'Please place the first Submarine coordinate (ex. A1, A2, B1, B2).'
-    input1 = gets.chomp.upcase
+    input1 = get_user_input
     puts 'Please place the second Submarine coordinate (ex. A1, A2, B1, B2).'
-    input2 = gets.chomp.upcase
+    input2 = get_user_input
     player_sub_coords = [input1, input2]
     until @player_board.valid_placement?(@player_sub, player_sub_coords) == true
       puts 'Those are invalid coordinates! Please try again:'
       puts ''
       print '> '
       player_sub_coords.clear
-      input1 = gets.chomp.upcase
+      input1 = get_user_input
       print '> '
-      input2 = gets.chomp.upcase
+      input2 = get_user_input
       player_sub_coords = [input1, input2]
     end
     @player_board.place(@player_sub, player_sub_coords)
@@ -210,11 +216,11 @@ class Game
 
   def player_turn
     puts 'Enter the coordinate for your shot:'
-    input = gets.chomp.upcase
+    input = get_user_input
 
     until valid_shot?(input, @computer_board)
       puts 'Please enter a valid coordinate:'
-      input = gets.chomp.upcase
+      input = get_user_input
     end
 
     cell = @computer_board.cells[input]
