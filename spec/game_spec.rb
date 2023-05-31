@@ -68,5 +68,11 @@ RSpec.describe Game do
         expect(game.valid_shot?(coordinate, board)).to be true
     end
 
+    it 'returns false for a coordinate outside the board' do
+        game = Game.new
+        board = game.player_board
+        coordinate = 'Z10'
+        expect(game.valid_shot?(coordinate, board)).to be false
+    end
     
 end
