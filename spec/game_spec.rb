@@ -74,5 +74,12 @@ RSpec.describe Game do
         coordinate = 'Z10'
         expect(game.valid_shot?(coordinate, board)).to be false
     end
-    
+
+    it 'returns false for a coordinate on the board that has already been fired upon' do
+        game = Game.new
+        board = game.player_board
+        coordinate = 'A1'
+        board.cells[coordinate].fire_upon
+        expect(game.valid_shot?(coordinate, board)).to be false
+    end
 end
