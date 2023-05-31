@@ -61,6 +61,12 @@ RSpec.describe Game do
         expect(placement).to be_nil
     end
 
+    it "returns true for a valid coordinate on the board that has not been fired upon" do
+        game = Game.new
+        board = game.player_board
+        coordinate = 'A1'
+        expect(game.valid_shot?(coordinate, board)).to be true
+    end
 
-
+    
 end
