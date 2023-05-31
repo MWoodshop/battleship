@@ -5,6 +5,8 @@ require './lib/coordinate_validation'
 class Board
   attr_reader :cells
 
+  include CoordinateValidation
+
   # Initializes with an optional size argument (default 4)
   def initialize(size = 4)
     @cells = {} # Create empty hash to store cells
@@ -35,6 +37,10 @@ class Board
   # The coordinates must not contain a ship
   #   - This is checked by using the none? method with a block that checks if the ship attribute of each cell is true
   def valid_placement?(ship, coordinates)
+    # Check that all coordinates are valid
+    return false unless coordinates.all? { |coordinate| valid_coordinate?(coordinate) }
+
+    # Then continue with the rest of the checks
     coordinates.length == ship.length && consecutive_coordinates?(coordinates) && coordinates.none? { |coordinate| @cells[coordinate].ship }
   end
 
