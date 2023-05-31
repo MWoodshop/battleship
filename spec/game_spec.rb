@@ -10,3 +10,10 @@ RSpec.describe Game do
 
         expect(game).to be_an_instance_of(Game)
     end
+
+    it "can start the game" do
+        game = Game.new
+
+        game.start
+    end
+end
