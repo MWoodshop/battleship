@@ -10,9 +10,9 @@ class MainMenu
 
   def display_main_menu
     puts '=== Main Menu ==='
-    puts 'Press P to play'
-    puts 'Press I for instructions'
-    puts 'Press Q to quit'
+    puts 'Enter P to play'
+    puts 'Enter I for instructions'
+    puts 'Enter Q to quit'
     puts ''
   end
 
@@ -68,7 +68,7 @@ def game_instructions
   puts 'All ships can only be placed within the grid and either horizontally or vertically.'
   puts ''
 
-  print 'Press any key to return to the main menu or Q to quit: '
+  print 'Enter M to the main menu or Q to quit: '
   choice = gets.chomp.downcase
   return unless choice == 'q'
 
