@@ -95,7 +95,7 @@ class Game
     computer_shot_coordinate = @player_board.cells.keys.sample until @player_board.cells[computer_shot_coordinate].fired_upon? == false
     @player_board.cells[computer_shot_coordinate].fire_upon
     if @player_board.cells[computer_shot_coordinate].render == 'M'
-      puts 'My shot on ' + computer_shot_coordinate + ' was a miss.'
+      puts 'My shot on ' + computer_shot_coordinate + ' missed the target.'
     elsif @player_board.cells[computer_shot_coordinate].render == 'H'
       puts 'My shot on ' + computer_shot_coordinate + ' was a hit.'
     elsif @player_board.cells[computer_shot_coordinate].render == 'X'
