@@ -27,4 +27,15 @@ RSpec.describe Game do
         expect(game.computer_sub).to be_an_instance_of(Ship)
     end
 
+    it "places the player cruiser on valid coordinates" do
+        game = Game.new
+        allow(game).to receive(:gets).and_return('A1', 'A2', 'A3')
+        game.player_place_cruiser
+
+        expect(game.player_board.cells['A1'].ship).to eq(game.player_cruiser)
+        expect(game.player_board.cells['A2'].ship).to eq(game.player_cruiser)
+        expect(game.player_board.cells['A3'].ship).to eq(game.player_cruiser)
+    end
+
+
 end
