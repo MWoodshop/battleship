@@ -265,7 +265,7 @@ class Game
 
   def display_game_result
     if @player_board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
-      puts 'Turing 6100 won the game!'
+      puts 'Turing 6100 won the game! Better luck next time!'
     else
       puts 'Player won the game!'
     end
