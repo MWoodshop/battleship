@@ -25,6 +25,10 @@ class Board
     end
   end
 
+  def ships
+    @cells.values.map(&:ship).compact.uniq
+  end
+
   # This method returns true if a given coordinate exists as a key in the @cells hash
   def valid_coordinate?(coordinate)
     @cells.key?(coordinate)
@@ -37,8 +41,8 @@ class Board
   # The coordinates must not contain a ship
   #   - This is checked by using the none? method with a block that checks if the ship attribute of each cell is true
   def valid_placement?(ship, coordinates)
-    # Check that all coordinates are valid
-    return false unless coordinates.all? { |coordinate| valid_coordinate?(coordinate) }
+    # Check that all coordinates are valid and not nil
+    return false unless coordinates&.all? { |coordinate| !coordinate.nil? && valid_coordinate?(coordinate) }
 
     # Then continue with the rest of the checks
     coordinates.length == ship.length && consecutive_coordinates?(coordinates) && coordinates.none? { |coordinate| @cells[coordinate].ship }
