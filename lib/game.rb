@@ -26,6 +26,12 @@ class Game
     player_place_cruiser
     player_place_sub
     computer_cruiser_coords
+    # Debug Only Start - Comment Out when shipped to Prod
+    rendered_board = @computer_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    # Debug Only End - Comment Out when shipped to Prod
   end
 
   # !!! Add valid coordinate check !!!
@@ -74,7 +80,7 @@ class Game
     letter_array = @computer_board.cells.keys
     coord_array = []
 
-    until @computer_board.valid_placement?(@computer_sub, coord_array)
+    until @computer_board.valid_placement?(@computer_cruiser, coord_array)
       coord_array.clear
 
       3.times do
@@ -82,7 +88,7 @@ class Game
       end
     end
 
-    @computer_cruiser_coords = cord_array
+    @computer_board.place(@computer_cruiser, coord_array)
   end
 
   def play_game
