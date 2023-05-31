@@ -76,7 +76,7 @@ class Game
     end
     @computer_board.cells[player_shot_coordinate].fire_upon
     if @computer_board.cells[player_shot_coordinate].render == 'M'
-      puts 'Your shot on ' + player_shot_coordinate + ' was a miss.'
+      puts 'Your shot on ' + player_shot_coordinate + ' missed the target.'
     elsif @computer_board.cells[player_shot_coordinate].render == 'H'
       puts 'Your shot on ' + player_shot_coordinate + ' was a hit.'
     elsif @computer_board.cells[player_shot_coordinate].render == 'X'
