@@ -21,11 +21,17 @@ class Game
   end
 
   def start
-    puts '=== Welcome to Battleship ==='
-    puts 'Instructions: ...' # Provide game instructions
     player_place_cruiser
     player_place_sub
     computer_cruiser_coords
+    # Debug Only Start - Comment Out when shipped to Prod
+    puts 'Computer Board:'
+    rendered_board = @computer_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    # Debug Only End - Comment Out when shipped to Prod
+    computer_sub_coords
     # Debug Only Start - Comment Out when shipped to Prod
     rendered_board = @computer_board.render(true)
     rendered_board.split("\n").each do |line|
@@ -48,6 +54,20 @@ class Game
     puts 'Please place the third Cruiser coordinate (ex. A1, A2, B1, B2).'
     input3 = gets.chomp.upcase
     player_cruiser_coords = [input1, input2, input3]
+    until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords) == true
+      # Removed the next unless line.
+
+      puts 'Those are invalid coordinates! Please try again:'
+      puts ''
+      print '> '
+      player_cruiser_coords.clear
+      input1 = gets.chomp.upcase
+      print '> '
+      input2 = gets.chomp.upcase
+      print '> '
+      input3 = gets.chomp.upcase
+      player_cruiser_coords = [input1, input2, input3]
+    end
     @player_board.place(@player_cruiser, player_cruiser_coords)
     puts ''
     rendered_board = @player_board.render(true)
@@ -67,6 +87,18 @@ class Game
     puts 'Please place the second Submarine coordinate (ex. A1, A2, B1, B2).'
     input2 = gets.chomp.upcase
     player_sub_coords = [input1, input2]
+    until @player_board.valid_placement?(@player_sub, player_sub_coords) == true
+      # Removed the next unless line.
+
+      puts 'Those are invalid coordinates! Please try again:'
+      puts ''
+      print '> '
+      player_sub_coords.clear
+      input1 = gets.chomp.upcase
+      print '> '
+      input2 = gets.chomp.upcase
+      player_sub_coords = [input1, input2]
+    end
     @player_board.place(@player_sub, player_sub_coords)
     puts ''
     rendered_board = @player_board.render(true)
@@ -89,6 +121,21 @@ class Game
     end
 
     @computer_board.place(@computer_cruiser, coord_array)
+  end
+
+  def computer_sub_coords
+    letter_array = @computer_board.cells.keys
+    coord_array = []
+
+    until @computer_board.valid_placement?(@computer_sub, coord_array)
+      coord_array.clear
+
+      3.times do
+        coord_array << letter_array.sample
+      end
+    end
+
+    @computer_board.place(@computer_sub, coord_array)
   end
 
   def play_game
