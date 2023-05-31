@@ -46,5 +46,13 @@ RSpec.describe Game do
         expect(game.player_board.cells['B2'].ship).to eq(game.player_sub)
     end
 
+    it "the computer places a ship on valid coordinates" do
+        game = Game.new
+        ship = Ship.new('Cruiser', 3)
+        placement = game.random_ship_placement(ship)
+        expect(game.computer_board.valid_placement?(ship, placement)).to be true
+    end
+
+
 
 end
