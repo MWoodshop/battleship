@@ -21,9 +21,13 @@ class Game
   end
 
   def start
+    setup_game
+  end
+
+  def setup_game
     player_place_cruiser
     player_place_sub
-    computer_cruiser_coords
+    computer_place_cruiser
     # Debug Only Start - Comment Out when shipped to Prod
     puts 'Computer Board:'
     rendered_board = @computer_board.render(true)
@@ -31,16 +35,74 @@ class Game
       puts line
     end
     # Debug Only End - Comment Out when shipped to Prod
-    computer_sub_coords
+    computer_place_sub
     # Debug Only Start - Comment Out when shipped to Prod
+    puts 'Computer Board:'
     rendered_board = @computer_board.render(true)
     rendered_board.split("\n").each do |line|
       puts line
     end
     # Debug Only End - Comment Out when shipped to Prod
+    play_game
   end
 
-  # !!! Add valid coordinate check !!!
+  def play_game
+    until @player_cruiser.sunk? == true && @player_sub.sunk? == true || @computer_cruiser.sunk? == true && @computer_sub.sunk? == true
+      player_shot
+      computer_shot
+      if @player_cruiser.sunk? == true && @player_sub.sunk? == true
+        puts 'I won!'
+      elsif @computer_cruiser.sunk? == true && @computer_sub.sunk? == true
+        puts 'You won!'
+      end
+    end
+  end
+
+  def player_shot
+    puts 'Enter the coordinate for your shot:'
+    print '> '
+    player_shot_coordinate = gets.chomp.upcase
+    until @computer_board.valid_coordinate?(player_shot_coordinate) == true && @computer_board.cells[player_shot_coordinate].fired_upon? == false
+      puts 'Please enter a valid coordinate:'
+      print '> '
+      player_shot_coordinate = gets.chomp.upcase
+    end
+    @computer_board.cells[player_shot_coordinate].fire_upon
+    if @computer_board.cells[player_shot_coordinate].render == 'M'
+      puts 'Your shot on ' + player_shot_coordinate + ' was a miss.'
+    elsif @computer_board.cells[player_shot_coordinate].render == 'H'
+      puts 'Your shot on ' + player_shot_coordinate + ' was a hit.'
+    elsif @computer_board.cells[player_shot_coordinate].render == 'X'
+      puts 'Your shot on ' + player_shot_coordinate + ' sunk my ship.'
+    end
+    puts ''
+    rendered_board = @computer_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    puts ''
+  end
+
+  def computer_shot
+    computer_shot_coordinate = @player_board.cells.keys.sample
+    computer_shot_coordinate = @player_board.cells.keys.sample until @player_board.cells[computer_shot_coordinate].fired_upon? == false
+    @player_board.cells[computer_shot_coordinate].fire_upon
+    if @player_board.cells[computer_shot_coordinate].render == 'M'
+      puts 'My shot on ' + computer_shot_coordinate + ' was a miss.'
+    elsif @player_board.cells[computer_shot_coordinate].render == 'H'
+      puts 'My shot on ' + computer_shot_coordinate + ' was a hit.'
+    elsif @player_board.cells[computer_shot_coordinate].render == 'X'
+      puts 'My shot on ' + computer_shot_coordinate + ' sunk your ship.'
+    end
+    puts ''
+    rendered_board = @player_board.render(true)
+    rendered_board.split("\n").each do |line|
+      puts line
+    end
+    puts ''
+  end
+
+  # Setup Begin:
 
   def player_place_cruiser
     # Prompt the user to place their ships on the board
@@ -55,8 +117,6 @@ class Game
     input3 = gets.chomp.upcase
     player_cruiser_coords = [input1, input2, input3]
     until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords) == true
-      # Removed the next unless line.
-
       puts 'Those are invalid coordinates! Please try again:'
       puts ''
       print '> '
@@ -88,8 +148,6 @@ class Game
     input2 = gets.chomp.upcase
     player_sub_coords = [input1, input2]
     until @player_board.valid_placement?(@player_sub, player_sub_coords) == true
-      # Removed the next unless line.
-
       puts 'Those are invalid coordinates! Please try again:'
       puts ''
       print '> '
@@ -108,61 +166,99 @@ class Game
     puts ''
   end
 
-  def computer_cruiser_coords
-    letter_array = @computer_board.cells.keys
-    coord_array = []
-
-    until @computer_board.valid_placement?(@computer_cruiser, coord_array)
-      coord_array.clear
-
-      3.times do
-        coord_array << letter_array.sample
+  def random_ship_placement(ship)
+    possible_placements = []
+    @computer_board.cells.keys.each do |coordinate|
+      (0...ship.length).each do |_i|
+        horizontal_placement = (0...ship.length).map { |j| coordinate[0] + (coordinate[1..-1].to_i + j).to_s }
+        vertical_placement = (0...ship.length).map { |j| (coordinate[0].ord + j).chr + coordinate[1..-1] }
+        possible_placements << horizontal_placement if @computer_board.valid_placement?(ship, horizontal_placement)
+        possible_placements << vertical_placement if @computer_board.valid_placement?(ship, vertical_placement)
       end
     end
+    possible_placements.sample
+  end
 
+  def computer_place_cruiser
+    @computer_cruiser_coords = random_ship_placement(@computer_cruiser)
+    @computer_board.place(@computer_cruiser, @computer_cruiser_coords)
+  end
+
+  def computer_place_sub
+    @computer_sub_coords = random_ship_placement(@computer_sub)
+    @computer_board.place(@computer_sub, @computer_sub_coords)
+  end
+
+  def computer_cruiser_coords
+    coord_array = random_ship_placement(@computer_cruiser)
     @computer_board.place(@computer_cruiser, coord_array)
   end
 
   def computer_sub_coords
-    letter_array = @computer_board.cells.keys
-    coord_array = []
-
-    until @computer_board.valid_placement?(@computer_sub, coord_array)
-      coord_array.clear
-
-      3.times do
-        coord_array << letter_array.sample
-      end
-    end
-
+    coord_array = random_ship_placement(@computer_sub)
     @computer_board.place(@computer_sub, coord_array)
   end
 
-  def play_game
-    puts 'Let the game begin!'
-    # loop do
-    #   # Display the board and other game information
-    #   puts @board.render
-    #   # Prompt the user for their next move
-    #   puts 'Please enter your move...'
-    #   move = gets.chomp.upcase
-    #   # Process the move and update the game state
-    #   break if game_over?
-    #   break if move == 'EXIT'
-    # end
+  # Setup End
 
-    display_game_result
+  def turn
+    player_turn
+    return if game_over?
+
+    computer_turn
+  end
+
+  def player_turn
+    puts 'Enter the coordinate for your shot:'
+    input = gets.chomp.upcase
+
+    until valid_shot?(input, @computer_board)
+      puts 'Please enter a valid coordinate:'
+      input = gets.chomp.upcase
+    end
+
+    cell = @computer_board.cells[input]
+    cells.fire_upon
+    print_shot_result(input, cell, 'Player')
+  end
+
+  def computer_turn
+    input = @player_board.cells.keys.sample
+
+    input = @player_board.cells.keys.sample until valid_shot?(input, @player_board)
+
+    cell = @player_board.cells[input]
+    cell.fire_upon
+    print_shot_result(input, cell, 'Computer')
+  end
+
+  def valid_shot?(coordinate, board)
+    board.valid_coordinate?(coordinate) && !board.cells[coordinate].fired_upon?
+  end
+
+  def print_shot_result(coordinate, cell, shooter)
+    result = if cell.empty? || cell.ship.nil?
+               'miss'
+             elsif cell.ship.sunk?
+               'sunk'
+             else
+               'hit'
+             end
+
+    puts "#{shooter} shot on #{coordinate} was a #{result}."
   end
 
   def game_over?
-    false
-    # Determines if the game is over
-    # Should be a boolean
+    [@player_board, @computer_board].any? do |board|
+      board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
+    end
   end
 
   def display_game_result
-    puts 'Game Over!'
-    puts 'The result is...'
-    # Have the result here
+    if @player_board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
+      puts 'Computer won the game!'
+    else
+      puts 'Player won the game!'
+    end
   end
 end
