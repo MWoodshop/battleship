@@ -36,19 +36,19 @@ class Game
     player_place_sub
     computer_place_cruiser
     # Debug Only Start - Comment Out when shipped to Prod
-    puts 'Computer Board:'
-    rendered_board = @computer_board.render(true)
-    rendered_board.split("\n").each do |line|
-      puts line
-    end
+    # puts 'Computer Board:'
+    # rendered_board = @computer_board.render(true)
+    # rendered_board.split("\n").each do |line|
+    #   puts line
+    # end
     # Debug Only End - Comment Out when shipped to Prod
     computer_place_sub
     # Debug Only Start - Comment Out when shipped to Prod
-    puts 'Computer Board:'
-    rendered_board = @computer_board.render(true)
-    rendered_board.split("\n").each do |line|
-      puts line
-    end
+    # puts 'Computer Board:'
+    # rendered_board = @computer_board.render(true)
+    # rendered_board.split("\n").each do |line|
+    #   puts line
+    # end
     # Debug Only End - Comment Out when shipped to Prod
     play_game
   end
@@ -58,7 +58,7 @@ class Game
       player_shot
       computer_shot
       if @player_cruiser.sunk? == true && @player_sub.sunk? == true
-        puts 'I won!'
+        puts 'Turing 6100 won!'
       elsif @computer_cruiser.sunk? == true && @computer_sub.sunk? == true
         puts 'You won!'
       end
@@ -76,14 +76,17 @@ class Game
     end
     @computer_board.cells[player_shot_coordinate].fire_upon
     if @computer_board.cells[player_shot_coordinate].render == 'M'
-      puts 'Your shot on ' + player_shot_coordinate + ' was a miss.'
+      puts 'Your shot on ' + player_shot_coordinate + ' missed the target.'
+      puts 'Turing 6100: HAHA YOU MISSED'
     elsif @computer_board.cells[player_shot_coordinate].render == 'H'
-      puts 'Your shot on ' + player_shot_coordinate + ' was a hit.'
+      puts 'Your shot on ' + player_shot_coordinate + ' hit the target.'
+      puts 'Turing 6100: LUCKY SHOT'
     elsif @computer_board.cells[player_shot_coordinate].render == 'X'
-      puts 'Your shot on ' + player_shot_coordinate + ' sunk my ship.'
+      puts 'Your shot on ' + player_shot_coordinate + ' sunk my battleship.'
+      puts 'Turing 6100: OH NO! MY SHIP'
     end
     puts ''
-    rendered_board = @computer_board.render(true)
+    rendered_board = @computer_board.render(false)
     rendered_board.split("\n").each do |line|
       puts line
     end
@@ -95,11 +98,11 @@ class Game
     computer_shot_coordinate = @player_board.cells.keys.sample until @player_board.cells[computer_shot_coordinate].fired_upon? == false
     @player_board.cells[computer_shot_coordinate].fire_upon
     if @player_board.cells[computer_shot_coordinate].render == 'M'
-      puts 'My shot on ' + computer_shot_coordinate + ' was a miss.'
+      puts 'My shot on ' + computer_shot_coordinate + ' missed the target.'
     elsif @player_board.cells[computer_shot_coordinate].render == 'H'
-      puts 'My shot on ' + computer_shot_coordinate + ' was a hit.'
+      puts 'My shot on ' + computer_shot_coordinate + ' hit the target.'
     elsif @player_board.cells[computer_shot_coordinate].render == 'X'
-      puts 'My shot on ' + computer_shot_coordinate + ' sunk your ship.'
+      puts 'My shot on ' + computer_shot_coordinate + ' sunk your battleship.'
     end
     puts ''
     rendered_board = @player_board.render(true)
@@ -262,9 +265,9 @@ class Game
 
   def display_game_result
     if @player_board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
-      puts 'Computer won the game!'
+      puts 'Turing 6100 won the game! Better luck next time!'
     else
-      puts 'Player won the game!'
+      puts 'Player won the game! *Congradulations*'
     end
   end
 end
