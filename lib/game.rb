@@ -83,6 +83,7 @@ class Game
       puts 'Turing 6100: LUCKY SHOT'
     elsif @computer_board.cells[player_shot_coordinate].render == 'X'
       puts 'Your shot on ' + player_shot_coordinate + ' sunk my battleship.'
+      puts 'Turing 6100: OH NO! MY SHIP'
     end
     puts ''
     rendered_board = @computer_board.render(false)
