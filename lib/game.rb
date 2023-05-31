@@ -77,8 +77,10 @@ class Game
     @computer_board.cells[player_shot_coordinate].fire_upon
     if @computer_board.cells[player_shot_coordinate].render == 'M'
       puts 'Your shot on ' + player_shot_coordinate + ' missed the target.'
+      puts 'Turing 6100: HAHA YOU MISSED'
     elsif @computer_board.cells[player_shot_coordinate].render == 'H'
       puts 'Your shot on ' + player_shot_coordinate + ' hit the target.'
+      puts 'Turing 6100: LUCKY SHOT'
     elsif @computer_board.cells[player_shot_coordinate].render == 'X'
       puts 'Your shot on ' + player_shot_coordinate + ' sunk my battleship.'
     end
@@ -96,7 +98,6 @@ class Game
     @player_board.cells[computer_shot_coordinate].fire_upon
     if @player_board.cells[computer_shot_coordinate].render == 'M'
       puts 'My shot on ' + computer_shot_coordinate + ' missed the target.'
-      puts 'Turing 6100: HAHA YOU MISSED'
     elsif @player_board.cells[computer_shot_coordinate].render == 'H'
       puts 'My shot on ' + computer_shot_coordinate + ' hit the target.'
     elsif @player_board.cells[computer_shot_coordinate].render == 'X'
