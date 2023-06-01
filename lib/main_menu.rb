@@ -66,6 +66,7 @@ def game_instructions
   puts ''
   puts 'Once you place your pieces the computer will do the same.'
   puts 'You will then take turns firing upon coordinates until all ships on either side are sunk.'
+  puts 'As the computer is in easy mode, if it sinks your last ship in the same turn you sink its last ship - YOU LOSE!'
   puts 'A ship has health equal to its length.'
   puts 'All ships can only be placed within the grid and either horizontally or vertically.'
   puts ''
