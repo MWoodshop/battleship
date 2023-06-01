@@ -72,7 +72,7 @@ def game_instructions
 
   print 'Enter M to the main menu or Q to quit: '
   choice = get_user_input.downcase
-  return unless choice == 'q' || 'Q'
+  return unless %w[q q].include?(choice)
 
   quit_application
 end
