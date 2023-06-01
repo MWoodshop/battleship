@@ -31,7 +31,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'valid_coordinate?' do
+  describe '#valid_coordinate?' do
     it 'returns true' do
       board = Board.new
 
@@ -48,7 +48,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'valid_placement?' do
+  describe '#valid_placement?' do
     it 'returns boolean' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
