@@ -174,11 +174,13 @@ class Game
     end
     puts ''
   end
-
+  # Method returns a random valid placement for the ship on the computer board.
+  # Iterating over computer cells and generating possible placements,
+  # Then randomly selecting one from the possible placement array. 
   def random_ship_placement(ship)
     possible_placements = []
     @computer_board.cells.keys.each do |coordinate|
-      (0...ship.length).each do |_i|
+      (0...ship.length).each do 
         horizontal_placement = (0...ship.length).map { |j| coordinate[0] + (coordinate[1..-1].to_i + j).to_s }
         vertical_placement = (0...ship.length).map { |j| (coordinate[0].ord + j).chr + coordinate[1..-1] }
         possible_placements << horizontal_placement if @computer_board.valid_placement?(ship, horizontal_placement)
