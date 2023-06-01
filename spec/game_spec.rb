@@ -60,26 +60,4 @@ RSpec.describe Game do
         placement = game.random_ship_placement(ship)
         expect(placement).to be_nil
     end
-
-    it "returns true for a valid coordinate on the board that has not been fired upon" do
-        game = Game.new
-        board = game.player_board
-        coordinate = 'A1'
-        expect(game.valid_shot?(coordinate, board)).to be true
-    end
-
-    it 'returns false for a coordinate outside the board' do
-        game = Game.new
-        board = game.player_board
-        coordinate = 'Z10'
-        expect(game.valid_shot?(coordinate, board)).to be false
-    end
-
-    it 'returns false for a coordinate on the board that has already been fired upon' do
-        game = Game.new
-        board = game.player_board
-        coordinate = 'A1'
-        board.cells[coordinate].fire_upon
-        expect(game.valid_shot?(coordinate, board)).to be false
-    end
 end

@@ -174,11 +174,13 @@ class Game
     end
     puts ''
   end
-
+  # Method returns a random valid placement for the ship on the computer board.
+  # Iterating over computer cells and generating possible placements,
+  # Then randomly selecting one from the possible placement array. 
   def random_ship_placement(ship)
     possible_placements = []
     @computer_board.cells.keys.each do |coordinate|
-      (0...ship.length).each do |_i|
+      (0...ship.length).each do 
         horizontal_placement = (0...ship.length).map { |j| coordinate[0] + (coordinate[1..-1].to_i + j).to_s }
         vertical_placement = (0...ship.length).map { |j| (coordinate[0].ord + j).chr + coordinate[1..-1] }
         possible_placements << horizontal_placement if @computer_board.valid_placement?(ship, horizontal_placement)
@@ -209,65 +211,4 @@ class Game
   end
 
   # Setup End
-
-  def turn
-    player_turn
-    return if game_over?
-
-    computer_turn
-  end
-
-  def player_turn
-    puts 'Enter the coordinate for your shot:'
-    input = get_user_input
-
-    until valid_shot?(input, @computer_board)
-      puts 'Please enter a valid coordinate:'
-      input = get_user_input
-    end
-
-    cell = @computer_board.cells[input]
-    cells.fire_upon
-    print_shot_result(input, cell, 'Player')
-  end
-
-  def computer_turn
-    input = @player_board.cells.keys.sample
-
-    input = @player_board.cells.keys.sample until valid_shot?(input, @player_board)
-
-    cell = @player_board.cells[input]
-    cell.fire_upon
-    print_shot_result(input, cell, 'Computer')
-  end
-
-  def valid_shot?(coordinate, board)
-    board.valid_coordinate?(coordinate) && !board.cells[coordinate].fired_upon?
-  end
-
-  def print_shot_result(coordinate, cell, shooter)
-    result = if cell.empty? || cell.ship.nil?
-               'miss'
-             elsif cell.ship.sunk?
-               'sunk'
-             else
-               'hit'
-             end
-
-    puts "#{shooter} shot on #{coordinate} was a #{result}."
-  end
-
-  def game_over?
-    [@player_board, @computer_board].any? do |board|
-      board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
-    end
-  end
-
-  def display_game_result
-    if @player_board.cells.values.all? { |cell| cell.empty? || (cell.ship && cell.ship.sunk?) }
-      puts 'Turing 6100 won the game! Better luck next time!'
-    else
-      puts 'Player won the game! *Congradulations*'
-    end
-  end
 end

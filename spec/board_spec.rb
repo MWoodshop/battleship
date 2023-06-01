@@ -31,7 +31,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'valid_coordinate?' do
+  describe '#valid_coordinate?' do
     it 'returns true' do
       board = Board.new
 
@@ -48,7 +48,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'valid_placement?' do
+  describe '#valid_placement?' do
     it 'returns boolean' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
@@ -58,15 +58,15 @@ RSpec.describe Board do
       expect(board.valid_placement?(cruiser, %w[A1 A2 A3 A4])).to eq(false)
     end
 
-    it 'is not an array' do
+    it 'does not contain enough coordinates' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
 
-      expect(board.valid_placement?(cruiser, 'A1')).to eq(false)
+      expect(board.valid_placement?(cruiser, ['A1'])).to eq(false)
     end
 
-    it 'is not an array' do
+    it 'is not a valid ship' do
       board = Board.new
       cruiser = Ship.new('Cruiser', 3)
       submarine = Ship.new('Submarine', 2)
